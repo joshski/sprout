@@ -21,7 +21,7 @@
     "express-session": "^1.9.3",
     "marked": "^0.3.3",
     "media-embed": "^2.1.0",
-    "plastiq": "git://github.com/featurist/plastiq.git",
+    "plastiq": "git://github.com/featurist/plastiq.git#diff_raw_html",
     "pogo": "^0.9.6",
     "pogoify": "^0.1.1",
     "underscore": "^1.7.0"
