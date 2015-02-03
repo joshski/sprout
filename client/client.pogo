@@ -378,9 +378,6 @@ renderItem (item, list, parent) =
 
 renderScreen (model) =
   h '.screen' (
-    h '.header' (
-      h '.logo' 'Logo'
-    )
     renderDocument (model.document, model.editing)
   )
 

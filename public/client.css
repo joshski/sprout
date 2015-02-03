@@ -19,25 +19,6 @@ select {
   margin: 4px;
 }
 
-.header {
-  position: fixed;
-  height: 40px;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #aaa;
-  line-height: 40px;
-  z-index: 10;
-}
-
-.header .logo {
-  margin-left: 10px;
-}
-
-.document {
-  margin-top: 40px;
-}
-
 .property_list dd {
   display: inline;
   margin: 0;
