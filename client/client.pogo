@@ -8,7 +8,7 @@ model = {
     body = [
       { type = "markdown", content = "## Title\n\nThis is a paragraph" }
       {
-        type = "key_value_list"
+        type = "property_list"
         items = [
           { key = "Sunday", value = "happy" }
           { key = "Monday", value = "sad" }
@@ -96,12 +96,12 @@ types = {
         h 'button' (
           {
             onclick () =
-              model.type = 'key_value_list'
+              model.type = 'property_list'
               model.items = []
               edit (model)
           }
 
-          '+ Key Value List'
+          '+ Property List'
         )
       ]
   }
@@ -150,9 +150,9 @@ types = {
       ]
   }
 
-  key_value_list = {
+  property_list = {
 
-    name = 'Key Value List'
+    name = 'Property List'
 
     create () =
       {

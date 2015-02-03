@@ -38,15 +38,15 @@ select {
   margin-top: 40px;
 }
 
-.key_value_list dd {
+.property_list dd {
   display: inline;
   margin: 0;
 }
-.key_value_list dd:after {
+.property_list dd:after {
   display: block;
   content: '';
 }
-.key_value_list dt {
+.property_list dt {
   display: inline-block;
   min-width: 100px;
 }
