@@ -84,6 +84,13 @@ pre {
   position: relative;
 }
 
+.document .editing-overlay {
+  display: none;
+}
+.document.editing .editing-overlay {
+  display: block;
+}
+
 .markdown textarea {
   font-size: 1em;
   width: 100%;

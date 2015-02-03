@@ -252,11 +252,12 @@ types = {
 
     render (model, editing) =
       [
-        if (editing)
-          h 'input.url' { type = 'text', binding = [model, 'url'] }
+        h '.edit' (
+          if (editing)
+            h 'input.url' { type = 'text', binding = [model, 'url'] }
+        )
 
         if (model.html)
-          console.log "RE-RENDER"
           h.rawHtml('.embed-html', model.html)
         else
           fetch (fullfill) =
@@ -277,10 +278,9 @@ types = {
 renderDocument (document) =
   h '.document' (
     { class = { editing = editingItem :: Object } }
-    if (editingItem :: Object)
-      h '.editing-overlay' {
-        onclick () = edit (nil)
-      }
+    h '.editing-overlay' {
+      onclick () = edit (nil)
+    }
 
     h '.body' (
       [
@@ -308,67 +308,69 @@ renderItem (item, list, parent) =
           e.stopPropagation()
     }
     [
-      if (item.editing)
-        [
-          h '.body-item-type' (types.(item.type).name)
-          h '.body-item-tools' (
-            if (item.type != 'new_item')
+      h '.editor' (
+        if (item.editing)
+          [
+            h '.body-item-type' (types.(item.type).name)
+            h '.body-item-tools' (
+              if (item.type != 'new_item')
+                h 'button' {
+                  onclick (e) =
+                    e.stopPropagation()
+                    edit (nil)
+                } 'done'
+
+              h 'button' {
+                onclick (e) =
+                  e.stopPropagation()
+                  newItem = { type = 'new_item' }
+                  list.splice(index, 0, newItem)
+                  edit (newItem)
+              } 'insert before'
+
+              h 'button' {
+                onclick (e) =
+                  e.stopPropagation()
+                  newItem = { type = 'new_item' }
+                  list.splice(index + 1, 0, newItem)
+                  edit (newItem)
+              } 'add after'
+
               h 'button' {
                 onclick (e) =
                   e.stopPropagation()
                   edit (nil)
-              } 'done'
+                  list.splice(index, 1)
+              } 'delete'
 
-            h 'button' {
-              onclick (e) =
-                e.stopPropagation()
-                newItem = { type = 'new_item' }
-                list.splice(index, 0, newItem)
-                edit (newItem)
-            } 'insert before'
+              if (parent)
+                h 'button' {
+                  onclick (e) =
+                    e.stopPropagation()
+                    edit (parent)
+                } 'parent'
 
-            h 'button' {
-              onclick (e) =
-                e.stopPropagation()
-                newItem = { type = 'new_item' }
-                list.splice(index + 1, 0, newItem)
-                edit (newItem)
-            } 'add after'
+              if (index > 0)
+                h 'button' {
+                  onclick (e) =
+                    e.stopPropagation()
+                    above = list.(index - 1)
+                    list.(index - 1) = item
+                    list.(index) = above
+                } 'move up'
 
-            h 'button' {
-              onclick (e) =
-                e.stopPropagation()
-                edit (nil)
-                list.splice(index, 1)
-            } 'delete'
+              if (index < (list.length - 1))
+                h 'button' {
+                  onclick (e) =
+                    e.stopPropagation()
+                    below = list.(index + 1)
+                    list.(index + 1) = item
+                    list.(index) = below
+                } 'move down'
 
-            if (parent)
-              h 'button' {
-                onclick (e) =
-                  e.stopPropagation()
-                  edit (parent)
-              } 'parent'
-
-            if (index > 0)
-              h 'button' {
-                onclick (e) =
-                  e.stopPropagation()
-                  above = list.(index - 1)
-                  list.(index - 1) = item
-                  list.(index) = above
-              } 'move up'
-
-            if (index < (list.length - 1))
-              h 'button' {
-                onclick (e) =
-                  e.stopPropagation()
-                  below = list.(index + 1)
-                  list.(index + 1) = item
-                  list.(index) = below
-              } 'move down'
-
-          )
-        ]
+            )
+          ]
+      )
 
       types.(item.type).render (item, item.editing)
     ]
