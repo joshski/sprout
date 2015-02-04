@@ -6,7 +6,17 @@ h = plastiq.html
 model = {
   document = {
     body = [
-      { type = "markdown", content = "## Title\n\nThis is a paragraph" }
+      {
+        type = "markdown"
+        content = [
+          "## Kittens\n\n"
+          "A kitten or kitty is a juvenile domesticated cat. A feline litter "
+          "usually consists of two to five kittens. To survive, kittens need "
+          "the care of their mother for the first several weeks o their life. "
+          "Kittens are highly social animals and spend most of their waking "
+          "hours playing and interacting with available companions."
+        ].join("")
+      }
       {
         type = "property_list"
         items = [
@@ -33,6 +43,10 @@ model = {
       {
         type = "embed"
         url = "https://soundcloud.com/epitaph-records/this-wild-life-history"
+      }
+      {
+        type = "embed"
+        url = "https://twitter.com/VeryOldPics/status/560487536532156417"
       }
     ]
   }
@@ -103,6 +117,18 @@ types = {
 
           '+ Property List'
         )
+
+        h 'button' (
+          {
+            onclick () =
+              model.type = 'embed'
+              model.url = 'http://'
+              edit (model)
+          }
+
+          '+ Embed'
+        )
+
       ]
   }
 
@@ -218,7 +244,7 @@ types = {
       else
         html = marked(model.content)
         if (html.length == 0)
-          html := '[markdown]'
+          html := '...'
 
         h.rawHtml '.markdown-content' (html)
   }
@@ -235,7 +261,12 @@ types = {
     render (model, editing) =
       [
         if (editing)
-          h 'input.url' { type = 'text', binding = [model, 'src'] }
+          h '.edit' (
+            h '.field' (
+              h 'label' 'URL'
+              h 'input.url' { type = 'text', binding = [model, 'src'] }
+            )
+          )
 
         h 'img' { src = model.src }
       ]
@@ -254,7 +285,10 @@ types = {
       [
         h '.edit' (
           if (editing)
-            h 'input.url' { type = 'text', binding = [model, 'url'] }
+            h '.field' (
+              h 'label' 'URL'
+              h 'input.url' { type = 'text', binding = [model, 'url'] }
+            )
         )
 
         if (model.html)
@@ -267,7 +301,7 @@ types = {
 
           p = @new Promise(fetch)
           h.promise (p) {
-            pending = 'loading...'
+            pending = '...'
             fullfilled (html) = h.rawHtml('.embed-html', html.innerHTML)
           }
       ]
@@ -308,10 +342,10 @@ renderItem (item, list, parent) =
           e.stopPropagation()
     }
     [
+      h '.body-item-type' (types.(item.type).name)
       h '.editor' (
         if (item.editing)
           [
-            h '.body-item-type' (types.(item.type).name)
             h '.body-item-tools' (
               if (item.type != 'new_item')
                 h 'button' {

@@ -5,7 +5,7 @@ body {
 }
 
 button {
-  background-color: Transparent;
+  background-color: transparent;
   background-repeat:no-repeat;
   border: 1px solid #bbb;
   cursor:pointer;
@@ -47,6 +47,25 @@ pre {
   cursor: pointer;
 }
 
+.body-item .body-item-type {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #D54324;
+  color: white;
+  padding: 3px;
+  font-size: 0.7em;
+}
+
+.body-item:hover .body-item-type {
+  display: block;
+}
+
+.document.editing .body-item .body-item-type {
+  display: none;
+}
+
 .document.editing {
   background-color: #efefef;
 }
@@ -55,6 +74,10 @@ pre {
 .document.editing .body-item.editing:hover {
   background-color: white;
   border: 2px solid #D54324;
+}
+
+.document .body-item {
+  position: relative;
 }
 
 .document.editing .body-item:hover {
@@ -75,7 +98,7 @@ pre {
 .markdown textarea {
   font-size: 1em;
   width: 100%;
-  height: 100px;
+  height: 150px;
   padding: 10px;
   border-style: solid;
   border-color: transparent;
@@ -86,7 +109,7 @@ pre {
 }
 
 .editing-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -94,18 +117,26 @@ pre {
   background: rgba(100, 100, 100, 0.5);
 }
 
-.body-item-type {
-  background-color: #D54324;
-  color: white;
-  padding: 6px;
-  font-size: 0.8em;
-}
-
 .body-item-tools {
   background-color: #efefef;
 }
 
-.image input.url {
+.edit {
+  background-color: #efefef;
+}
+
+.edit .field {
+  padding: 6px;
+}
+
+.edit .field label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+
+.edit .field input.url {
   width: 100%;
 }
 
